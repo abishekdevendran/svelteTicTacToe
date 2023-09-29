@@ -3,9 +3,9 @@
 </script>
 
 <!-- YOU CAN DELETE EVERYTHING IN THIS PAGE -->
-
-<div class="container h-full mx-auto flex justify-center items-center">
-	<div class="space-y-5">
-		<Board />
-	</div>
+<svelte:head>
+	<title>Tic-Tac-Toe</title>
+</svelte:head>
+<div class="flex justify-center items-center w-full h-full flex-col">
+	<Board />
 </div>
