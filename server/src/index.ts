@@ -1,6 +1,24 @@
 import { logger } from '@grotto/logysia';
 import { Elysia, t } from 'elysia';
 
+let todos: {
+	task: string;
+	isCompleted: boolean;
+}[] = [
+	{
+		task: 'Buy milk',
+		isCompleted: false
+	},
+	{
+		task: 'Do laundry',
+		isCompleted: false
+	},
+	{
+		task: 'Clean room',
+		isCompleted: false
+	}
+];
+
 const app = new Elysia({
 	websocket: {
 		idleTimeout: 30,
@@ -12,6 +30,29 @@ const app = new Elysia({
 			message: 'Hello World!'
 		};
 	})
+	.get('/todos', () => {
+		return todos;
+	})
+	.post(
+		'/addTodo',
+		(req) => {
+			const { task, isCompleted } = req.body;
+			todos.push({
+				task,
+				isCompleted
+			});
+			return {
+				message: `Added '${task}' to the list`,
+				errors: []
+			};
+		},
+		{
+			body: t.Object({
+				task: t.String(),
+				isCompleted: t.Boolean()
+			})
+		}
+	)
 	.ws('/ws', {
 		open(ws) {
 			const msg = `A user has entered the-group-chat`;
